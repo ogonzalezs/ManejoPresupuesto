@@ -17,9 +17,10 @@ namespace ManejoPresupuesto.Servicios
         {
             using var connection = new SqlConnection(connectionString);
             var id = await connection.QuerySingleAsync<int>
-                                                    (@"INSERT INTO tbl_TiposCuentas (Nombre, UsuarioId, Orden)
-                                                    VALUES (@Nombre, @UsuarioId, 0);
-                                                    SELECT SCOPE_IDENTITY();", tipoCuenta);
+                                                    ("TiposCuentas_Insertar", 
+                                                    new { usuarioId = tipoCuenta.UsuarioId,
+                                                    nombre = tipoCuenta.Nombre },
+                                                    commandType: System.Data.CommandType.StoredProcedure);
 
             tipoCuenta.TipoCuentaId = id;
         }
@@ -65,7 +66,7 @@ namespace ManejoPresupuesto.Servicios
 
         public async Task Ordenar(IEnumerable<TipoCuenta> tipoCuentasOrdenados) 
         {
-            var query = "UPDATE tbl_Cuentas SET Orden = @Orden WHERE TipoCuentaId = @TipoCuentaId;";
+            var query = "UPDATE tbl_TiposCuentas SET Orden = @Orden WHERE TipoCuentaId = @TipoCuentaId;";
             using var connection = new SqlConnection(connectionString);
             await connection.ExecuteAsync(query, tipoCuentasOrdenados);
         }
