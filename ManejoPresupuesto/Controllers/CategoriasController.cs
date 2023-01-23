@@ -42,5 +42,41 @@ namespace ManejoPresupuesto.Controllers
             await repositorioCategorias.Crear(categoria);
             return RedirectToAction("Index"); 
         }
+
+        public async Task<IActionResult> Editar (int id) 
+        {
+            var usuarioId = servicioUsuario.ObtenerUsuarioId();
+            var categoria = await repositorioCategorias.ObtenerPorId(id, usuarioId);
+
+            if (categoria is null)
+            {
+                return RedirectToAction("No Encontrado", "Index");
+            }
+
+            return View(categoria);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(Categoria categoriaEditar) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(categoriaEditar);
+            }
+
+            var usuarioId = servicioUsuario.ObtenerUsuarioId();
+            var categoria = await repositorioCategorias.ObtenerPorId(categoriaEditar.CategoriaId, usuarioId);
+
+            if (categoria is null)
+            {
+                return RedirectToAction("No Encontrado", "Index");
+            }
+
+            categoriaEditar.UsuarioId = usuarioId;
+            await repositorioCategorias.Actualizar(categoriaEditar);
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
