@@ -77,6 +77,33 @@ namespace ManejoPresupuesto.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Borrar (int id) 
+        {
+            var usuarioId = servicioUsuario.ObtenerUsuarioId();
+            var categoria = await repositorioCategorias.ObtenerPorId(id, usuarioId);
+
+            if (categoria is null)
+            {
+                return RedirectToAction("No Encontrado", "Index");
+            }
+
+            return View(categoria);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BorrarCategoria (int categoriaId)
+        {
+            var usuarioId = servicioUsuario.ObtenerUsuarioId();
+            var categoria = await repositorioCategorias.ObtenerPorId(categoriaId, usuarioId);
+
+            if (categoria is null)
+            {
+                return RedirectToAction("No Encontrado", "Index");
+            }
+
+            await repositorioCategorias.Borrar(categoriaId);
+            return RedirectToAction("Index");
+        }
 
     }
 }

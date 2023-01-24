@@ -47,5 +47,11 @@ namespace ManejoPresupuesto.Servicios
                 SET Nombre = @Nombre, TipoOperacionId = @TipoOperacionId
                 WHERE CategoriaId = @CategoriaId", categoria);
         }
+
+        public async Task Borrar(int categoriaId) 
+        { 
+            var connection = new SqlConnection(connectionString);
+            await connection.ExecuteAsync(@"DELETE tbl_Categorias WHERE CategoriaId = @CategoriaId", new { categoriaId });
+        }
     }
 }
