@@ -8,6 +8,7 @@ namespace ManejoPresupuesto.Interfaces
         Task Borrar(int categoriaId);
         Task Crear(Categoria categoria);
         Task<IEnumerable<Categoria>> Obtener(int usuarioId);
+        Task<IEnumerable<Categoria>> Obtener(int usuarioId, TipoOperacion tipoOperacion);
         Task<Categoria> ObtenerPorId(int id, int usuarioId);
     }
 }
