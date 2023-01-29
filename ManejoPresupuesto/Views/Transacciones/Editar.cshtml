@@ -1,16 +1,19 @@
-﻿@model TransaccionCreacionVM
+﻿@model TransaccionActualizacionVM
 
 @{
-    ViewData["Title"] = "Crear Transacción";
+    ViewData["Title"] = "Editar Transacción";
 }
 
-<h1>Crear Transacción</h1>
+<h1>Editar Transacción</h1>
 <h5>
     Una Transacción te permite indicar tus ingresos y gastos.
 </h5>
 
-<form asp-action="Crear">
+<form asp-action="Editar">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="TransaccionId" />
+    <input type="hidden" asp-for="MontoAnterior" />
+    <input type="hidden" asp-for="CuentaAnteriorId" />
 
     <div class="mb-3">
         <label asp-for="FechaTransaccion" class="form-label"></label>
@@ -26,7 +29,7 @@
 
     <div class="mb-3">
         <label asp-for="TipoOperacionId" class="form-label"></label>
-        <select asp-for="TipoOperacionId" asp-items="Html.GetEnumSelectList<TipoOperacion>()" class="form-select" ></select>
+        <select asp-for="TipoOperacionId" asp-items="Html.GetEnumSelectList<TipoOperacion>()" class="form-select"></select>
         <span asp-validation-for="TipoOperacionId" class="text-danger"></span>
     </div>
 
@@ -47,6 +50,8 @@
         <textarea asp-for="Nota" class="form-control"></textarea>
         <span asp-validation-for="Nota" class="text-danger"></span>
     </div>
+
+
 
     <button class="btn btn-primary">Enviar</button>
     <a class="btn btn-secondary">Cancelar</a>
